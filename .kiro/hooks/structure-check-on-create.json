@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Check Folder Structure on New File",
+      "trigger": "PostFileCreate",
+      "description": "When a new file is created inside tm-backend/ or tm-frontend/src/, reminds the agent to verify the file is placed in the correct folder per the canonical structure defined in the steering files.",
+      "matcher": "tm-(backend|frontend)/.*\\.(py|js|jsx|css)$",
+      "action": {
+        "type": "agent",
+        "prompt": "A new file was just created. Before continuing, verify it is placed in the correct folder according to the project conventions:\n\nBACKEND (tm-backend/): Check against backend-structure.md canonical layout:\n- ORM models → app/models/\n- Pydantic schemas → app/schemas/\n- Route handlers → app/routers/\n- Business logic → app/services/\n- DB session/base → app/db/\n- Flyway migrations (.sql) → app/db/migrations/\n- Tests → app/tests/\n- Config/env → app/config.py\n- Shared Depends() → app/dependencies.py\n\nFRONTEND (tm-frontend/src/): Check against frontend-structure.md canonical layout:\n- React pages → src/pages/\n- Reusable UI primitives → src/components/common/\n- Auth components → src/components/auth/\n- Task components → src/components/tasks/\n- Custom hooks → src/hooks/\n- Axios client → src/api/client.js (only one allowed)\n- Constants → src/constants/\n- Utilities → src/utils/\n- CSS Modules → co-located next to the component file\n\nIf the file is in the wrong place, flag it and suggest the correct path. Do not proceed with implementation until the file location is confirmed correct."
+      }
+    }
+  ]
+}

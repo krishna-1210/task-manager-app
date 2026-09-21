@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Lint Frontend on Save",
+      "trigger": "PostFileSave",
+      "description": "Runs ESLint on any frontend JS/JSX file whenever it is saved. Fails (exit non-zero) if there are lint warnings or errors, surfacing them immediately in the session.",
+      "matcher": "tm-frontend/src/.*\\.(js|jsx)$",
+      "action": {
+        "type": "command",
+        "command": "cd \"d:\\Kiro AI tool\\Simpleusecase\\tm-frontend\" ; npx eslint --max-warnings=0 $(echo $env:KIRO_FILE_PATH | Resolve-Path -Relative) 2>&1",
+        "timeout": 30
+      }
+    }
+  ]
+}

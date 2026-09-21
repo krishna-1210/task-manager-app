@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Session Conventions Reminder",
+      "trigger": "SessionStart",
+      "description": "At the start of every session, reminds the agent of the key project conventions so they are applied consistently from the first message.",
+      "action": {
+        "type": "agent",
+        "prompt": "A new session has started on the Task Manager App. Apply these conventions from the very first task:\n\nSTRUCTURE\n- Backend files must follow the canonical layout in .kiro/steering/backend-structure.md\n- Frontend files must follow the canonical layout in .kiro/steering/frontend-structure.md\n- Never create files outside the defined folder structure without flagging it first\n\nSTYLE & PATTERNS\n- Python: snake_case files/functions, PascalCase classes/schemas, UPPER_SNAKE_CASE constants\n- JS/JSX: PascalCase components, camelCase hooks/utils, UPPER_SNAKE_CASE exported constants\n- CSS: CSS Modules only (ComponentName.module.css), design tokens via --tm-* custom properties in index.css\n- No inline style={{}} except truly dynamic values\n- No Tailwind, no styled-components\n\nBACKEND HARD RULES\n- Never call Base.metadata.create_all() — all schema via Flyway migrations in app/db/migrations/\n- Always use Mapped/mapped_column (SQLAlchemy 2.x declarative style)\n- Ownership check (403) before existence check (404)\n- All env vars through app/config.py Settings class — never os.environ.get() inline\n- bcrypt cost factor ≤ 12\n\nFRONTEND HARD RULES\n- JWT token in React state only — never localStorage\n- All API calls through src/api/client.js Axios instance — components never import client.js directly\n- useTasks hook owns all task state — components read from it, never call API themselves\n- Status values always from STATUS_VALUES constant in src/constants/taskStatus.js\n- Tests: vitest --run (never watch mode)\n\nGIT\n- Always branch as feature/task-<n>-<slug> — never commit to main\n- Commit message: feat(task-<n>): <description> / Closes #<issue>\n\nIf a developer mentions a task number, read .kiro/specs/task-manager-app/tasks.md first before writing any code."
+      }
+    }
+  ]
+}
