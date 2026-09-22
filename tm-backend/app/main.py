@@ -104,9 +104,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Routers registered here — implementations added in Tasks 5.1 and 8.1
-    # from app.routers import auth, tasks
-    # application.include_router(auth.router, prefix="/auth", tags=["auth"])
+    from app.routers import auth  # noqa: PLC0415
+    application.include_router(auth.router, prefix="/auth", tags=["auth"])
+    # Tasks router registered in Task 8.1
+    # from app.routers import tasks
     # application.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
 
     return application
