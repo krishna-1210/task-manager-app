@@ -1,24 +1,50 @@
 /**
- * App — router setup and top-level layout.
+ * App — router setup, AuthProvider, and top-level layout.
  *
- * Protected routes and full AuthProvider wrapping added in Tasks 11.1 and 12.1.
- * Page components are stubs until Tasks 13.1 and 16.1.
+ * AuthProvider wraps all routes so every component can call useAuth().
+ * initApiClient() is called once here to wire the Axios interceptors to the
+ * auth context (token ref + logout + navigate).
+ *
+ * Protected route wrapper (ProtectedRoute) added in Task 12.1.
  */
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 
+import { initApiClient } from './api/client'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
+
+/**
+ * ApiClientInit — mounts inside AuthProvider so it has access to auth context.
+ * Calls initApiClient() once to inject tokenRef, logout, and navigate into Axios.
+ */
+function ApiClientInit() {
+  const { tokenRef, logout } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    initApiClient(tokenRef, logout, navigate)
+    // Only run once on mount — dependencies are stable refs/callbacks
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return null
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        {/* Default redirect — ProtectedRoute wrapper added in Task 12.1 */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
+      <AuthProvider>
+        <ApiClientInit />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          {/* ProtectedRoute wrapper added in Task 12.1 */}
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
