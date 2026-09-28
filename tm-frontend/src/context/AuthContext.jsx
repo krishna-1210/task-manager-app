@@ -1,5 +1,5 @@
 /**
- * AuthContext — provides JWT token state, login, and logout to the whole app.
+ * AuthContext — provides JWT token state, login, logout, and loginWithCredentials.
  *
  * Rules (Requirements 1.4, 2.5):
  * - Token lives in React state only — never written to localStorage or sessionStorage.
@@ -7,9 +7,13 @@
  * - useAuth() hook is the only way components access auth state.
  * - The Axios client (src/api/client.js) reads the token via a ref so interceptors
  *   always see the latest value without needing a re-render.
+ * - loginWithCredentials() is the single place that calls POST /auth/login so
+ *   components never import apiClient directly.
  */
 
 import { createContext, useCallback, useContext, useRef, useState } from 'react'
+
+import apiClient from '../api/client'
 
 /** @type {React.Context<AuthContextValue|null>} */
 const AuthContext = createContext(null)
@@ -21,6 +25,8 @@ const AuthContext = createContext(null)
  * @property {() => void} logout - Clear the JWT and mark user as logged out.
  * @property {React.MutableRefObject<string|null>} tokenRef - Ref mirror of token for
  *   use inside Axios interceptors (avoids stale closure issues).
+ * @property {(username: string, password: string) => Promise<void>} loginWithCredentials -
+ *   POST /auth/login, store token on success. Throws on 401/429/network error.
  */
 
 /**
@@ -47,8 +53,30 @@ export function AuthProvider({ children }) {
     setToken(null)
   }, [])
 
+  /**
+   * POST /auth/login with form-encoded credentials.
+   * Stores the returned JWT on success.
+   * Throws the Axios error on failure so LoginPage can inspect status.
+   *
+   * @param {string} username
+   * @param {string} password
+   */
+  const loginWithCredentials = useCallback(async (username, password) => {
+    const params = new URLSearchParams()
+    params.append('username', username)
+    params.append('password', password)
+
+    const response = await apiClient.post('/auth/login', params, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    })
+
+    const newToken = response.data.access_token
+    tokenRef.current = newToken
+    setToken(newToken)
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ token, login, logout, tokenRef }}>
+    <AuthContext.Provider value={{ token, login, logout, tokenRef, loginWithCredentials }}>
       {children}
     </AuthContext.Provider>
   )
