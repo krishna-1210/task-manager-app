@@ -1,9 +1,10 @@
 /**
- * useAuth hook — stub.
- * Full implementation (JWT token state, login, logout, AuthContext) added in Task 11.1.
+ * useAuth hook — re-exports from AuthContext for convenient import.
+ *
+ * Components import from here:
+ *   import { useAuth } from '../hooks/useAuth'
+ *
+ * The actual implementation lives in src/context/AuthContext.jsx.
  */
 
-// Stub export — replaced in Task 11.1
-export function useAuth() {
-  throw new Error('useAuth must be used within an AuthProvider (implemented in Task 11.1)')
-}
+export { useAuth } from '../context/AuthContext'
