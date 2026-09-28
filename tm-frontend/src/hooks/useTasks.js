@@ -15,7 +15,7 @@
  *   statusCounts — { pending, in_progress, done } counts from full array
  *   isLoading
  *   error
- *   fetchTasks()</p>
+ *   fetchTasks()
  *   createTask(data)
  *   updateTaskStatus(id, status)
  *   deleteTask(id)
