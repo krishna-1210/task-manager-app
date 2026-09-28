@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Auto-Raise PR When Task Session Ends",
+      "trigger": "Stop",
+      "description": "Automatically raises a GitHub PR when an agent session ends on a feature/task-* branch, if no open PR already exists for that branch.",
+      "action": {
+        "type": "command",
+        "command": "\n$branch = git rev-parse --abbrev-ref HEAD 2>$null\nif ($branch -notmatch '^feature/task-') { exit 0 }\n\n$existing = gh pr list --head $branch --state open --json number 2>$null | ConvertFrom-Json\nif ($existing.Count -gt 0) { exit 0 }\n\n$taskNum = ($branch -replace '^feature/task-(\\d+[\\.\\d]*).*', '$1')\n$title = \"feat(task-$taskNum): $(($branch -replace '^feature/task-\\d+[\\.\\d]*-', '') -replace '-', ' ')\"\nif ($title.Length -gt 70) { $title = $title.Substring(0, 70) }\n\ngh pr create --head $branch --base main --title $title --body \"## Summary`n`nImplements task $taskNum as per .kiro/specs/task-manager-app/tasks.md`n`nCloses #$taskNum`n`n## What was implemented`n`nSee commit history for details.`n`n## What was tested`n`nSee test output in session log.\" 2>$null\n",
+        "timeout": 30
+      }
+    }
+  ]
+}
