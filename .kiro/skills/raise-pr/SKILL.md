@@ -3,9 +3,31 @@ name: raise-pr
 description: Prepare and raise a pull request after completing a task. Use when a task is done and ready for review — runs tests, verifies conventions, generates the PR description, and pushes the branch.
 ---
 
-## Raising a PR
+## Automated PR Flow
 
-Run through every step. Do not skip ahead to pushing if earlier steps fail.
+> **This skill is invoked automatically.** The `PostTaskExec` hook (`auto-raise-pr-on-task-complete`) triggers this workflow the moment a spec task is marked complete. You do not need to call this skill manually.
+
+### Status after PR is raised
+- The task is **not** closed when the PR is created.
+- The PR receives the `ready-for-review` label automatically.
+- The task stays open as **ready for review** until the PR is fully merged.
+
+### Merge gate
+- A minimum of **1 approved review** is required before merging.
+- The `merge-gate-require-review` hook enforces this automatically when you ask to merge.
+- If no approval exists yet, the merge is blocked and you are told to wait for a reviewer.
+
+### To trigger a merge
+Once you have at least 1 approved review, simply tell Kiro:
+> "Merge the PR for task <n>"
+
+The merge gate hook will verify the approval and complete the squash merge.
+
+---
+
+## Manual Fallback
+
+If the automatic hook did not fire (e.g., task was completed outside a spec session), run through every step below manually. Do not skip ahead to pushing if earlier steps fail.
 
 ### Step 1 — Confirm you are on the right branch
 
@@ -144,19 +166,62 @@ Implements Task <n> — <task title>.
 Closes #<issue-number>
 ```
 
-### Step 9 — Raise the PR
+### Step 9 — Raise the PR with the `ready-for-review` label
 
-Use the GitHub CLI:
+Create the label if it does not exist on the repo:
+
+```powershell
+gh label create "ready-for-review" `
+  --color "0075ca" `
+  --description "Task complete, awaiting at least 1 approved review before merge" `
+  --repo krishna-1210/task-manager-app
+```
+
+Then raise the PR:
 
 ```powershell
 gh pr create `
   --title "feat(task-<n>): <short description under 70 chars>" `
   --body "<paste the generated description>" `
   --base main `
-  --head feature/task-<n>-<slug>
+  --head feature/task-<n>-<slug> `
+  --label "ready-for-review"
 ```
 
 PR title must be **under 70 characters**.
+
+### Step 10 — Do NOT close the task
+
+After the PR is raised, the task stays open as **ready for review**.  
+Only close/complete the task after the PR is merged to `main`.
+
+---
+
+## Merge Gate
+
+Before merging, verify at least 1 approved review exists:
+
+```powershell
+gh pr view <pr-number> --json reviews,reviewDecision
+```
+
+- `reviewDecision` must be `"APPROVED"` with at least one review `state: "APPROVED"`.
+- If no approval yet: wait. Do not merge.
+
+When the gate passes, merge via squash:
+
+```powershell
+gh pr merge <pr-number> --squash `
+  --subject "feat(task-<n>): <task title> (#<pr-number>)" `
+  --delete-branch
+```
+
+After merging, pull `main` and the task can be closed:
+
+```powershell
+git checkout main
+git pull origin main
+```
 
 ---
 
@@ -170,3 +235,5 @@ PR title must be **under 70 characters**.
 | Frontend tests | `vitest --run` from `tm-frontend/` | All green |
 | Commit message | Manual check | Matches format |
 | PR title length | Manual check | ≤ 70 chars |
+| Label applied | `gh pr view --json labels` | `ready-for-review` present |
+| Review gate | `gh pr view --json reviewDecision` | `APPROVED` before merge |

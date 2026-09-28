@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Merge Gate — Require 1 Approved Review",
+      "trigger": "UserPromptSubmit",
+      "description": "Checks that the PR has at least 1 approved review before allowing a merge. Blocks the merge if no approvals are present and guides the developer through the correct merge flow.",
+      "matcher": "merge.*(PR|pull request|branch)|PR.*merge",
+      "action": {
+        "type": "agent",
+        "prompt": "The developer has asked to merge a PR. Before proceeding, enforce the review gate:\n\n## Merge Gate Check\n\n### Step 1 — Identify the PR\nRun: `gh pr list --state open --json number,title,headRefName,labels`\nFind the PR for the current feature branch.\n\n### Step 2 — Check review status\nRun: `gh pr view <pr-number> --json reviews,reviewDecision,state`\n- If `reviewDecision` is `\"APPROVED\"` and at least 1 review has `state: \"APPROVED\"` → proceed to Step 3.\n- If there are 0 approved reviews OR the only reviews are `\"CHANGES_REQUESTED\"` or `\"COMMENTED\"` → **STOP**.\n  Tell the developer:\n  > \"This PR cannot be merged yet. It needs at least 1 approved review. Current status: <reviewDecision>. Share the PR link with a reviewer and wait for their approval before merging.\"\n  Do not proceed further.\n\n### Step 3 — Merge the PR (only if review gate passes)\nUse squash merge to keep `main` history clean:\n```\ngh pr merge <pr-number> --squash --subject \"feat(task-<n>): <task title> (#<pr-number>)\" --delete-branch\n```\n\n### Step 4 — Confirm and update developer\nAfter a successful merge:\n- Confirm: \"PR #<number> merged to `main` via squash. Branch `feature/task-<n>-<slug>` deleted.\"\n- The task can now be marked as fully complete/closed.\n- Remind the developer to pull the latest `main` before starting the next task:\n  ```\n  git checkout main\n  git pull origin main\n  ```\n"
+      }
+    }
+  ]
+}
