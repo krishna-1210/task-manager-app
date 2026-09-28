@@ -5,13 +5,14 @@
  * initApiClient() is called once here to wire the Axios interceptors to the
  * auth context (token ref + logout + navigate).
  *
- * Protected route wrapper (ProtectedRoute) added in Task 12.1.
+ * ProtectedRoute guards /dashboard — unauthenticated users are redirected to /login.
  */
 
 import { useEffect } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 
 import { initApiClient } from './api/client'
+import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
@@ -40,8 +41,14 @@ function App() {
         <ApiClientInit />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          {/* ProtectedRoute wrapper added in Task 12.1 */}
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>
