@@ -79,7 +79,8 @@ function LoginPage() {
       if (status === 401) {
         setFormError('Invalid username or password.')
       } else if (status === 429) {
-        const detail = err.response?.data?.detail ?? 'Too many failed attempts. Please try again later.'
+        const detail =
+          err.response?.data?.detail ?? 'Too many failed attempts. Please try again later.'
         setFormError(detail)
         setIsLocked(true)
       } else {
