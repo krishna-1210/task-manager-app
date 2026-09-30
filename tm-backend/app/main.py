@@ -3,6 +3,9 @@
 Bootstraps the app with a lifespan that runs Flyway migrations before
 the HTTP server starts. Retries every 30 seconds on failure.
 Registers CORS middleware and all routers.
+
+Flyway connection details (url, user, password, locations) are read from
+flyway.conf in the project root — no flags are passed on the command line.
 """
 
 import asyncio
@@ -12,8 +15,6 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.config import settings
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,38 +26,18 @@ logger = logging.getLogger(__name__)
 MIGRATION_RETRY_INTERVAL = 30
 
 
-def _build_jdbc_url(database_url: str) -> str:
-    """Convert a SQLAlchemy DATABASE_URL to a Flyway JDBC URL.
-
-    Example:
-        postgresql+psycopg2://user:pass@localhost:5432/taskmanager
-        → jdbc:postgresql://localhost:5432/taskmanager
-    """
-    # Strip driver prefix (everything up to and including "://")
-    without_scheme = database_url.split("://", 1)[1]          # user:pass@host:port/db
-    host_db = without_scheme.split("@", 1)[1]                  # host:port/db
-    return f"jdbc:postgresql://{host_db}"
-
-
 async def run_migrations_with_retry() -> None:
     """Run Flyway migrations, retrying every 30 s until they succeed.
 
+    Connection details (url, user, password, locations) come from flyway.conf
+    which Flyway reads automatically from the working directory.
     The HTTP server is not started until this function returns successfully,
     satisfying Requirement 7.3 (server must not accept requests until DB is ready).
     """
-    jdbc_url = _build_jdbc_url(settings.DATABASE_URL)
-
     while True:
         try:
             subprocess.run(
-                [
-                    "flyway",
-                    f"-url={jdbc_url}",
-                    f"-user={settings.DB_USER}",
-                    f"-password={settings.DB_PASSWORD}",
-                    "-locations=filesystem:./app/db/migrations",
-                    "migrate",
-                ],
+                ["flyway", "migrate"],
                 capture_output=True,
                 check=True,
             )
