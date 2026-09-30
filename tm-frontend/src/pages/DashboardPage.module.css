@@ -85,7 +85,7 @@
   justify-content: space-between;
   gap: var(--tm-space-4);
   padding: var(--tm-space-3) var(--tm-space-4);
-  background-color: #FEE2E2;
+  background-color: var(--tm-color-danger-bg);
   border: 1px solid var(--tm-color-danger);
   border-radius: var(--tm-radius-sm);
   color: var(--tm-color-danger);
@@ -100,7 +100,7 @@
   flex-shrink: 0;
   padding: var(--tm-space-1) var(--tm-space-3);
   background-color: var(--tm-color-danger);
-  color: #ffffff;
+  color: var(--tm-color-on-danger);
   border: none;
   border-radius: var(--tm-radius-sm);
   font-size: var(--tm-font-size-sm);

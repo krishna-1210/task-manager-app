@@ -17,7 +17,7 @@
 
 import { useEffect } from 'react'
 
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { useTasks } from '../hooks/useTasks'
 import StatusSummary from '../components/tasks/StatusSummary'
 import TaskCreateForm from '../components/tasks/TaskCreateForm'
