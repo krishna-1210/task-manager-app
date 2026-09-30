@@ -1,0 +1,67 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.dialog {
+  background-color: var(--tm-color-surface);
+  border-radius: var(--tm-radius-md);
+  padding: var(--tm-space-8);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.title {
+  margin: 0 0 var(--tm-space-2);
+  font-size: var(--tm-font-size-lg);
+  font-weight: var(--tm-font-weight-bold);
+  color: var(--tm-color-text);
+}
+
+.body {
+  margin: 0 0 var(--tm-space-6);
+  font-size: var(--tm-font-size-base);
+  color: var(--tm-color-text-muted);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--tm-space-3);
+}
+
+.cancelBtn {
+  padding: var(--tm-space-2) var(--tm-space-4);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-sm);
+  background-color: var(--tm-color-surface);
+  color: var(--tm-color-text);
+  font-size: var(--tm-font-size-base);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background-color: var(--tm-color-bg);
+}
+
+.confirmBtn {
+  padding: var(--tm-space-2) var(--tm-space-4);
+  border: none;
+  border-radius: var(--tm-radius-sm);
+  background-color: var(--tm-color-danger);
+  color: #ffffff;
+  font-size: var(--tm-font-size-base);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+}
+
+.confirmBtn:hover {
+  opacity: 0.9;
+}

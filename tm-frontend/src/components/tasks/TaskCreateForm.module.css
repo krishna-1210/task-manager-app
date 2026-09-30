@@ -1,0 +1,108 @@
+.form {
+  background-color: var(--tm-color-surface);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-md);
+  padding: var(--tm-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-space-4);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--tm-font-size-lg);
+  font-weight: var(--tm-font-weight-bold);
+  color: var(--tm-color-text);
+}
+
+.apiError {
+  margin: 0;
+  padding: var(--tm-space-3) var(--tm-space-4);
+  background-color: #FEE2E2;
+  color: var(--tm-color-danger);
+  border-radius: var(--tm-radius-sm);
+  font-size: var(--tm-font-size-sm);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-space-1);
+}
+
+.label {
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+  color: var(--tm-color-text);
+}
+
+.optional {
+  font-weight: var(--tm-font-weight-normal);
+  color: var(--tm-color-text-muted);
+}
+
+.input,
+.textarea {
+  padding: var(--tm-space-2) var(--tm-space-3);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-sm);
+  font-size: var(--tm-font-size-base);
+  color: var(--tm-color-text);
+  background-color: var(--tm-color-surface);
+  width: 100%;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: 2px solid var(--tm-color-primary);
+  outline-offset: 1px;
+  border-color: var(--tm-color-primary);
+}
+
+.inputError {
+  border-color: var(--tm-color-danger);
+}
+
+.inputError:focus {
+  outline-color: var(--tm-color-danger);
+  border-color: var(--tm-color-danger);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-danger);
+}
+
+.charCount {
+  margin: 0;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-text-muted);
+  text-align: right;
+}
+
+.submitBtn {
+  align-self: flex-end;
+  padding: var(--tm-space-2) var(--tm-space-6);
+  background-color: var(--tm-color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--tm-radius-sm);
+  font-size: var(--tm-font-size-base);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

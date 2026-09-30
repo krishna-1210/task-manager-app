@@ -1,0 +1,105 @@
+.item {
+  background-color: var(--tm-color-surface);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-md);
+  padding: var(--tm-space-4) var(--tm-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-space-3);
+}
+
+.item.hasError {
+  border-color: var(--tm-color-danger);
+}
+
+.errorIndicator {
+  margin: 0;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-danger);
+  font-weight: var(--tm-font-weight-medium);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--tm-space-4);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-space-3);
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--tm-font-size-base);
+  font-weight: var(--tm-font-weight-bold);
+  color: var(--tm-color-text);
+  word-break: break-word;
+}
+
+.deleteBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--tm-color-text-muted);
+  font-size: var(--tm-font-size-base);
+  cursor: pointer;
+  padding: var(--tm-space-1) var(--tm-space-2);
+  border-radius: var(--tm-radius-sm);
+  line-height: 1;
+}
+
+.deleteBtn:hover {
+  background-color: #FEE2E2;
+  color: var(--tm-color-danger);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-text-muted);
+  word-break: break-word;
+}
+
+.date {
+  margin: 0;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-text-muted);
+}
+
+.statusControls {
+  display: flex;
+  gap: var(--tm-space-2);
+  flex-wrap: wrap;
+}
+
+.statusBtn {
+  padding: var(--tm-space-1) var(--tm-space-3);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-pill);
+  background-color: var(--tm-color-bg);
+  color: var(--tm-color-text-muted);
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.statusBtn:hover:not(:disabled) {
+  background-color: var(--tm-color-primary);
+  color: #ffffff;
+  border-color: var(--tm-color-primary);
+}
+
+.statusBtnActive {
+  background-color: var(--tm-color-primary);
+  color: #ffffff;
+  border-color: var(--tm-color-primary);
+  cursor: default;
+}

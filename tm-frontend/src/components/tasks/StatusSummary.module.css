@@ -1,0 +1,48 @@
+.bar {
+  display: flex;
+  gap: var(--tm-space-6);
+  padding: var(--tm-space-4) var(--tm-space-6);
+  background-color: var(--tm-color-surface);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-md);
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-space-2);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--tm-radius-pill);
+  flex-shrink: 0;
+}
+
+.dotPending {
+  background-color: var(--tm-color-status-pending);
+}
+
+.dotProgress {
+  background-color: var(--tm-color-status-progress);
+}
+
+.dotDone {
+  background-color: var(--tm-color-status-done);
+}
+
+.label {
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-text-muted);
+  font-weight: var(--tm-font-weight-medium);
+}
+
+.count {
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-bold);
+  color: var(--tm-color-text);
+  min-width: 20px;
+  text-align: center;
+}

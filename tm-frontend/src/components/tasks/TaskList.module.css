@@ -1,0 +1,34 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-space-4);
+}
+
+.listItem {
+  /* No extra styles needed — TaskItem handles its own box */
+}
+
+.emptyState {
+  margin: 0;
+  padding: var(--tm-space-8);
+  text-align: center;
+  color: var(--tm-color-text-muted);
+  font-size: var(--tm-font-size-base);
+  background-color: var(--tm-color-surface);
+  border: 1px dashed var(--tm-color-border);
+  border-radius: var(--tm-radius-md);
+}
+
+.disclosure {
+  margin: var(--tm-space-4) 0 0;
+  text-align: center;
+  font-size: var(--tm-font-size-sm);
+  color: var(--tm-color-text-muted);
+  padding: var(--tm-space-3);
+  background-color: var(--tm-color-surface);
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-sm);
+}
