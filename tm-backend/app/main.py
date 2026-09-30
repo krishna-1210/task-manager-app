@@ -31,8 +31,10 @@ async def run_migrations_with_retry() -> None:
 
     Connection details (url, user, password, locations) come from flyway.conf
     which Flyway reads automatically from the working directory.
-    The HTTP server is not started until this function returns successfully,
-    satisfying Requirement 7.3 (server must not accept requests until DB is ready).
+
+    If the flyway executable is not on PATH (e.g. migrations are managed
+    manually), a warning is logged and startup continues immediately —
+    the server assumes migrations have already been applied.
     """
     while True:
         try:
@@ -51,11 +53,11 @@ async def run_migrations_with_retry() -> None:
             )
             await asyncio.sleep(MIGRATION_RETRY_INTERVAL)
         except FileNotFoundError:
-            logger.error(
-                "flyway executable not found on PATH. Retrying in %ds.",
-                MIGRATION_RETRY_INTERVAL,
+            logger.warning(
+                "flyway executable not found on PATH — skipping automatic migration. "
+                "Ensure migrations have been applied manually before starting the server."
             )
-            await asyncio.sleep(MIGRATION_RETRY_INTERVAL)
+            return
 
 
 @asynccontextmanager
