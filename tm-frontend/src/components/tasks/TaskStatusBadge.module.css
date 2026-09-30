@@ -1,0 +1,25 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--tm-space-1) var(--tm-space-3);
+  border-radius: var(--tm-radius-pill);
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.inProgress {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.done {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
