@@ -1,0 +1,124 @@
+/* DashboardPage layout styles.
+   Uses design tokens from src/index.css via CSS custom properties.
+*/
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--tm-color-bg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Header                                                              */
+/* ------------------------------------------------------------------ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tm-space-4) var(--tm-space-6);
+  background-color: var(--tm-color-surface);
+  border-bottom: 1px solid var(--tm-color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.appTitle {
+  margin: 0;
+  font-size: var(--tm-font-size-lg);
+  font-weight: var(--tm-font-weight-bold);
+  color: var(--tm-color-text);
+}
+
+.logoutBtn {
+  padding: var(--tm-space-2) var(--tm-space-4);
+  background-color: transparent;
+  border: 1px solid var(--tm-color-border);
+  border-radius: var(--tm-radius-sm);
+  color: var(--tm-color-text-muted);
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background-color: var(--tm-color-bg);
+  color: var(--tm-color-text);
+}
+
+/* ------------------------------------------------------------------ */
+/* Main content area                                                   */
+/* ------------------------------------------------------------------ */
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--tm-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-space-6);
+}
+
+/* ------------------------------------------------------------------ */
+/* Loading                                                             */
+/* ------------------------------------------------------------------ */
+
+.loadingMessage {
+  margin: 0;
+  padding: var(--tm-space-8);
+  text-align: center;
+  color: var(--tm-color-text-muted);
+  font-size: var(--tm-font-size-base);
+}
+
+/* ------------------------------------------------------------------ */
+/* Error banner                                                        */
+/* ------------------------------------------------------------------ */
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tm-space-4);
+  padding: var(--tm-space-3) var(--tm-space-4);
+  background-color: #FEE2E2;
+  border: 1px solid var(--tm-color-danger);
+  border-radius: var(--tm-radius-sm);
+  color: var(--tm-color-danger);
+}
+
+.errorText {
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+}
+
+.retryBtn {
+  flex-shrink: 0;
+  padding: var(--tm-space-1) var(--tm-space-3);
+  background-color: var(--tm-color-danger);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--tm-radius-sm);
+  font-size: var(--tm-font-size-sm);
+  font-weight: var(--tm-font-weight-medium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.retryBtn:hover {
+  opacity: 0.9;
+}
+
+/* ------------------------------------------------------------------ */
+/* Content sections                                                    */
+/* ------------------------------------------------------------------ */
+
+.summarySection,
+.createSection,
+.listSection {
+  /* sections stack vertically via parent gap — no extra margin needed */
+}
